@@ -2,7 +2,7 @@
  * Created by Usuario on 09/12/2014.
  */
 
-//routes/pina.js
+//routes/reports.js
 var express = require('express');
 var cradle = require('cradle');
 var http = require('http');
@@ -103,9 +103,9 @@ router.route('/frutas/:type/solicitarfrutas').post (function (req, res){
 	});
 
 	var options = {
-		host: '127.0.0.1', 	// Cambiar por la direccion ip en la que se ejecute el servidor maestro
+		host: '127.0.0.1',
 		path: '/api/distribuidora/comprarfruta',
-		port: '3050',		// Cambiar por el puerto en el que se ejecute el servidor maestro
+		port: '3050',
 		method: 'POST',
 		headers: {
 			"Content-Type": "application/json; charset=utf-8",
@@ -119,7 +119,7 @@ router.route('/frutas/:type/solicitarfrutas').post (function (req, res){
 		});
 
 		response.on('end', function () {
-			console.log(str);
+			console.log('El string en response on end es: ', str);
 			str = JSON.parse(str);
 
 			db.save({fruta: str.fruta.type, status: "disponible"}, function(err, responseSave) {
@@ -147,9 +147,9 @@ router.route('/frutas/:user').post(function (req, res){
 	});
 
 	var options = {
-		host: '127.0.0.1',	// Cambiar por la direccion ip en la que se ejecute el servidor maestro
+		host: '127.0.0.1',
 		path: '/api/distribuidora/' + user + '/mandarproducir',
-		port: '3050',		// Cambiar por el puerto en el que se ejecute el servidor maestro
+		port: '3050',
 		method: 'POST',
 		headers: {
 			"Content-Type": "application/json; charset=utf-8",
@@ -186,7 +186,7 @@ router.route('/frutas/venderfruta').put(function(req, res){
 	});
 });
 
-router.route('/frutas/despacharfruta').delete(function(req, res){
+router.route('/frutas/despacharfruta').put(function(req, res){
 	var body = req.body;
 	db.get(body._id,function(err,ress){
 		if(err){
@@ -209,7 +209,6 @@ router.route('/frutas/despacharfruta').delete(function(req, res){
 
 });
 
-// Consultar fruta por id
 router.route('/frutas/fruta/:id').get(function(req, res){
 	var params = req.params;
 
